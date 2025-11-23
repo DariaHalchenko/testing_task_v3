@@ -7,29 +7,30 @@ import requests
 MEASUREMENT_ID = "G-BDEF2MYY8F"
 API_SECRET = "5kVYOJJiSPurqL8UoxRhFA"  # MUST BE FILLED
 
-# Отправка события в GA4 DebugView
+# Sends event to Google Analytics 4
 def send_ga4_event(path):
-    client_id = str(uuid.uuid4())  # уникальный "псевдо-посетитель"
+    client_id = str(uuid.uuid4())  # unique fake visitor
 
     payload = {
         "client_id": client_id,
         "events": [{
             "name": "page_view",
             "params": {
-                "page_title": f"Locust DebugView Test: {path}",
+                "page_title": f"Locust Load Test: {path}",
                 "page_location": f"http://localhost:3000{path}",
-                "engagement_time_msec": 1000
+                "engagement_time_msec": 1
             }
         }]
     }
 
-    # Debug endpoint для GA4
-    mp_url = f"https://www.google-analytics.com/debug/mp/collect?measurement_id={MEASUREMENT_ID}&api_secret={API_SECRET}"
+    # GA4 Measurement Protocol endpoint
+    mp_url = (
+        f"https://www.google-analytics.com/mp/collect"
+        f"?measurement_id={MEASUREMENT_ID}&api_secret={API_SECRET}"
+    )
 
-    # Отправляем событие и печатаем ответ сервера
-    response = requests.post(mp_url, json=payload)
-    print(f"Sent event to GA4 for path {path}, status: {response.status_code}, response: {response.text}")
-
+    # Send the event
+    requests.post(mp_url, json=payload)
 
 
 class WebsiteUser(HttpUser):
@@ -52,6 +53,7 @@ class WebsiteUser(HttpUser):
         path = "/slow"
         self.client.get(path)
         send_ga4_event(path)
+
 
 # Funktsioon määratud pikkusega juhusliku stringi genereerimiseks
 #def random_string(length=8):
