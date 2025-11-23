@@ -5,11 +5,11 @@ import requests
 
 # Your GA4 credentials
 MEASUREMENT_ID = "G-BDEF2MYY8F"
-API_SECRET = "5kVYOJJiSPurqL8UoxRhFA"  # MUST BE FILLED
+API_SECRET = "5kVYOJJiSPurqL8UoxRhFA" 
 
 # Sends event to Google Analytics 4
 def send_ga4_event(path):
-    client_id = str(uuid.uuid4())  # unique fake visitor
+    client_id = str(uuid.uuid4()) 
 
     payload = {
         "client_id": client_id,
