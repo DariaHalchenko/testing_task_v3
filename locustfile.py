@@ -14,14 +14,14 @@ def send_ga4_event(path):
     payload = {
         "client_id": client_id,
         "events": [{
-            "name": "page_view",
-            "params": {
-                "page_title": f"Locust Load Test: {path}",
-                "page_location": f"http://localhost:3000{path}",
-                "engagement_time_msec": 1
-            }
-        }],
-        "debug_mode": True
+        "name": "page_view",
+        "params": {
+            "page_title": f"Locust Load Test: {path}",
+            "page_location": f"http://127.0.0.1:5001/{path}",
+            "engagement_time_msec": 1,
+            "debug_mode": True
+        }
+    }]
     }
 
     # GA4 Measurement Protocol endpoint
