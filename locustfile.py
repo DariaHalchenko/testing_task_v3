@@ -4,36 +4,32 @@ import json
 import requests
 
 # Your GA4 credentials
-MEASUREMENT_ID = "G-BSV6LPTF7N"
-API_SECRET = "ove6H02lQTKKxyLDy35iNw"  # MUST BE FILLED
+MEASUREMENT_ID = "G-BDEF2MYY8F"
+API_SECRET = "5kVYOJJiSPurqL8UoxRhFA"  # MUST BE FILLED
 
 # Отправка события в GA4 DebugView
 def send_ga4_event(path):
-    client_id = str(uuid.uuid4())  # уникальный пользователь
+    client_id = str(uuid.uuid4())  # уникальный "псевдо-посетитель"
 
     payload = {
         "client_id": client_id,
         "events": [{
             "name": "page_view",
             "params": {
-                "page_title": f"Locust Load Test: {path}",
-                # Можно указать любой реальный URL вместо localhost
-                "page_location": f"http://127.0.0.1:5001/{path}",
+                "page_title": f"Locust DebugView Test: {path}",
+                "page_location": f"http://localhost:3000{path}",
                 "engagement_time_msec": 1000
             }
         }]
     }
 
     # Debug endpoint для GA4
-    mp_url = (
-        f"https://www.google-analytics.com/debug/mp/collect"
-        f"?measurement_id={MEASUREMENT_ID}&api_secret={API_SECRET}"
-    )
+    mp_url = f"https://www.google-analytics.com/debug/mp/collect?measurement_id={MEASUREMENT_ID}&api_secret={API_SECRET}"
 
-    # Отправка события
+    # Отправляем событие и печатаем ответ сервера
     response = requests.post(mp_url, json=payload)
-    # Выводим ответ сервера для отладки
-    print(response.status_code, response.text)
+    print(f"Sent event to GA4 for path {path}, status: {response.status_code}, response: {response.text}")
+
 
 
 class WebsiteUser(HttpUser):
