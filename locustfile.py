@@ -20,7 +20,8 @@ def send_ga4_event(path):
                 "page_location": f"http://localhost:3000{path}",
                 "engagement_time_msec": 1
             }
-        }]
+        }],
+        "debug_mode": True
     }
 
     # GA4 Measurement Protocol endpoint
